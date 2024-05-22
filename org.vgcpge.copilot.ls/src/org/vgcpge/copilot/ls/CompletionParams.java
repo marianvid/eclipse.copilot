@@ -23,4 +23,8 @@ public class CompletionParams {
 		  this.doc = Objects.requireNonNull(doc);
 	  }
 	  
+	  public TextDocumentPositionParams getDoc() {
+		  System.out.println("Documentu###: " + doc.toString());
+			  return doc;
+	  }
 }

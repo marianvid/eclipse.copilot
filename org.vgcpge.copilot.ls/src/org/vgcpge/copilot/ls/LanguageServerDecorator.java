@@ -86,10 +86,18 @@ public class LanguageServerDecorator extends LanguageServerDecoratorBase {
 					CompletionParams position) {
 				// getCompletionsCycling returns more completions than getCompletions()
 				// See https://github.com/vgcpge/eclipse.copilot/issues/7
-				return languageServerDelegate.thenCompose(s -> s.getCompletionsCycling(adaptCompletionParams(position)))
+				CompletableFuture<Either<List<CompletionItem>, CompletionList>> result = languageServerDelegate.thenCompose(s -> s.getCompletionsCycling(adaptCompletionParams(position)))
 						.thenApply(c -> Either
-								.forLeft(c.completions.stream().map(LanguageServerDecorator::adaptCompletoinItem)
+								.forLeft(c.completions.stream().map(LanguageServerDecorator::adaptCompletionItem)
 										.distinct().collect(Collectors.toList())));
+				// Iterate through the result when it's completed
+	            result.thenAccept(either -> either.getLeft().forEach(item -> {
+	                // Here we simply print the label of each CompletionItem, you might want to adjust
+	                // this to print other properties or to perform other actions
+	                System.out.println(item.getLabel());
+	            }));
+	            
+				return result;
 			}
 
 			@Override
@@ -108,10 +116,12 @@ public class LanguageServerDecorator extends LanguageServerDecoratorBase {
 	private static org.vgcpge.copilot.ls.CompletionParams adaptCompletionParams(CompletionParams params) {
 		TextDocumentIdentifier doc = params.getTextDocument();
 		TextDocumentPositionParams docPos = new TextDocumentPositionParams(doc.getUri(), params.getPosition(), 1);
-		return new org.vgcpge.copilot.ls.CompletionParams(docPos);
+		org.vgcpge.copilot.ls.CompletionParams result =  new org.vgcpge.copilot.ls.CompletionParams(docPos);
+		
+		return result;
 	}
 
-	private static CompletionItem adaptCompletoinItem(org.vgcpge.copilot.ls.rpc.CompletionItem completion) {
+	private static CompletionItem adaptCompletionItem(org.vgcpge.copilot.ls.rpc.CompletionItem completion) {
 		String text = completion.text;
 		String displayText = completion.displayText;
 		CompletionItem result = new CompletionItem(firstLine(displayText));

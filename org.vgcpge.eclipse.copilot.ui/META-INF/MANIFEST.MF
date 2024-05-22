@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.lsp4e;bundle-version="0.15.0",
  org.eclipse.ui;bundle-version="3.0.0"
 Automatic-Module-Name: org.vgcpge.eclipse.copilot.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17
+
