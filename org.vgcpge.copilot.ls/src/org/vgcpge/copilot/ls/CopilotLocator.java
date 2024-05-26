@@ -116,7 +116,7 @@ public class CopilotLocator {
 				.filter(Files::isReadable);
 	}
 
-	private Optional<Path> downloadAgent() {
+	public Optional<Path> downloadAgent() {
 		if (persistentStorage == null) {
 			return Optional.empty();
 		}
@@ -194,7 +194,7 @@ public class CopilotLocator {
 		return Stream.concat(Stream.of("node"), NODE_PATH_CANDIDATES.stream()).map(Object::toString);
 	}
 
-	private String findNode() {
+	public String findNode() {
 		if (nodeLocation != null) {
 			return nodeLocation.toString();
 		}

@@ -9,6 +9,14 @@ public class SignInConfirmParams {
 	private String userCode;
 
 	public SignInConfirmParams(String userCode) {
-		this.userCode = Objects.requireNonNull(userCode);
+		this.setUserCode(Objects.requireNonNull(userCode));
+	}
+
+	public @NonNull String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(@NonNull String userCode) {
+		this.userCode = userCode;
 	}
 }

@@ -4,7 +4,8 @@ Bundle-Name: Language Server for Github Copilot
 Bundle-SymbolicName: org.vgcpge.copilot.ls
 Bundle-Vendor: VGCPGE
 Bundle-Version: 0.0.21.qualifier
-Export-Package: org.vgcpge.copilot.ls
+Export-Package: org.vgcpge.copilot.ls,
+ org.vgcpge.copilot.ls.rpc
 Require-Bundle: org.eclipse.lsp4j.jsonrpc,
  org.eclipse.lsp4j;bundle-version="0.14.0",
  com.google.guava
